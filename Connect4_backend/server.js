@@ -22,16 +22,16 @@ const app = express();
 const server = createServer(app);
 
 
-const normalize = (url) => url?.replace(/\/$/, '');
+//const normalize = (url) => url?.replace(/\/$/, '');
 
-const FRONTEND_URL = normalize(process.env.FRONTEND_URL);
+//const FRONTEND_URL = normalize(process.env.FRONTEND_URL);
 
-console.log('Frontend URL from env:', process.log.FRONTEND_URL);
+console.log('Frontend URL from env log:', process.env.Frontend_URL);
 
 const allowedOrigins = [
   'http://localhost:3001',
   'http://localhost:5173',
-  process.log.FRONTEND_URL,
+  process.env.FRONTEND_URL,
 ];
 
 console.log('CORS allowed origins:', allowedOrigins);
