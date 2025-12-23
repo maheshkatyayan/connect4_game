@@ -26,12 +26,12 @@ const normalize = (url) => url?.replace(/\/$/, '');
 
 const FRONTEND_URL = normalize(process.env.FRONTEND_URL);
 
-console.log('Frontend URL from env:', FRONTEND_URL);
+console.log('Frontend URL from env:', process.log.FRONTEND_URL);
 
 const allowedOrigins = [
   'http://localhost:3001',
   'http://localhost:5173',
-  FRONTEND_URL,
+  process.log.FRONTEND_URL,
 ];
 
 console.log('CORS allowed origins:', allowedOrigins);
