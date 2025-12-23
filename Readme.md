@@ -248,7 +248,7 @@ uuid@^13.0.0
 
 ## Development
 
-### Running Tests
+<!-- ### Running Tests
 
 ```bash
 # Frontend
@@ -258,9 +258,9 @@ npm test
 # Backend (if configured)
 cd Connect4_backend
 npm test
-```
+``` -->
 
-### Code Quality
+<!-- ### Code Quality
 
 ```bash
 # Frontend linting
@@ -270,7 +270,7 @@ npm run lint
 # Backend (ESLint can be configured)
 cd Connect4_backend
 npm run lint
-```
+``` -->
 
 ##  Docker Workflow
 
