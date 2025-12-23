@@ -6,7 +6,7 @@ A full-stack multiplayer Connect 4 game built with React (frontend) and Node.js 
 
 This is a complete Connect 4 implementation with:
 - **Real-time Multiplayer**: WebSocket-based multiplayer gaming with Socket.io
-- **Bot Opponent**: AI-powered bot for single-player games
+- **Bot Opponent**: bot for single-player games
 - **Leaderboard System**: Track player statistics and rankings
 - **Analytics Pipeline**: Kafka-based event tracking and analytics
 - **Docker Support**: Containerized deployment for both frontend and backend
@@ -68,7 +68,7 @@ npm install
 npm run dev
 ```
 
-Create a `.env` file in the `4inrow_frontend` directory (optional):
+Create a `.env` file in the `4inrow_frontend` directory:
 ```env
 VITE_SOCKET_SERVER_URL=http://localhost:5000
 ```
@@ -81,10 +81,6 @@ In your backend(Connect4_backend) go to kafkaClinet inside kafka folder and make
 Comment out:
 
 ```js
-ssl: {
-  rejectUnauthorized: true,
-  ca: [Buffer.from(process.env.KAFKA_SSL_CA, 'base64').toString('utf8')],
-},
 **Important**: In `Connect4_backend/kafka/kafkaClient.mjs`, comment out the SSL and SASL configuration if running locally:
 
 ```js
@@ -96,13 +92,21 @@ ssl: {
 //   mechanism: 'scram-sha-256',
 //   username: process.env.KAFKA_USERNAME,
 //   password: process.env.KAFKA_PASSWORD,
-// 
+// }
+```
+
+#### (Open 3 Terminal Windows)
+
+**Terminal 1: Start Kafka and Zookeeper**
+
+```bash
+cd Connect4_backend
+docker-compose up --build
+```
+
 This runs:
 - Kafka broker
 - Zookeeper
-
-**Terminal 2: Start API Server**
-- PostgreSQL database
 
 **Terminal 2: Start API Server**
 
@@ -114,7 +118,9 @@ cd Connect4_backend
 npm install
 
 # Start the API server (runs on http://localhost:5000)
-npm start
+node server.js
+```
+
 **Terminal 3: Start Analytics Consumer**
 
 Open another new terminal:
@@ -125,9 +131,8 @@ cd Connect4_backend
 node analytics/consumerStart.mjs
 ```
 
-### Environment Variables
 
-Create a `.env` file in the `Connect4_backend` directory with the following variables:
+
 
 ```env
 PORT=5000
@@ -152,7 +157,7 @@ KAFKA_BROKER=localhost:9092
 - Player turn notifications
 
 ### 3. **Bot Opponent**
-- AI logic for single-player games
+-  logic for single-player games
 - Strategic move selection
 - Difficulty levels (basic implementation)
 
@@ -241,7 +246,7 @@ uuid@^13.0.0
 5. **Winning**: Get 4 pieces in a row (horizontal, vertical, or diagonal)
 6. **Leaderboard**: View player rankings and statistics
 
-## 🔧 Development
+## Development
 
 ### Running Tests
 
@@ -302,7 +307,7 @@ docker-compose up -d
 docker-compose logs -f <service-name>
 ```
 
-## 📊 Game Statistics
+## Game Statistics
 
 The system tracks:
 - Total games played
