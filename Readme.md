@@ -38,7 +38,7 @@ connect_4_game/
 │   ├── analytics/            # Analytics worker and consumer
 │   ├── Dockerfile.api        # Docker image for API server
 │   ├── Dockerfile.worker     # Docker image for analytics worker
-│   ├── docker-compose.yml    # Backend Docker Compose config
+│   ├── docker-compose.yml    # Backend Docker Compose config for 
 │   └── package.json
 │
 └── README.md                 # This file
@@ -52,11 +52,23 @@ connect_4_game/
 - **npm** or **yarn**
 - **Docker** and **Docker Compose** (optional, for containerized deployment)
 - **PostgreSQL** (for database)
-- **Kafka** (optional, for analytics pipeline)
+- **Kafka** (for analytics pipeline)
 
 ### Installation & Running Locally
-
 #### Frontend Setup
+### Using Docker
+
+```bash
+# Build frontend image
+cd 4inrow_frontend
+docker build -t connect4-frontend:latest .
+```
+
+
+Create a `.env` file in the `Connect4_backend` directory with the following variables:
+```VITE_SOCKET_SERVER_URL=http://localhost:5000```
+
+Other way you can do this
 
 ```bash
 cd 4inrow_frontend
@@ -66,53 +78,12 @@ npm install
 
 # Development server (runs on http://localhost:5173)
 npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Lint code
-npm run lint
 ```
 
-#### Backend Setup
 
-```bash
-cd Connect4_backend
+#### Backend Setup (Requires 3 Terminal Windows)
 
-# Install dependencies
-npm install
-
-# Start the server (runs on http://localhost:3000)
-npm start
-```
-
-### Environment Variables
-
-Create a `.env` file in the `Connect4_backend` directory with the following variables:
-
-```env
-PORT=3000
-NODE_ENV=development
-Frontend_URL=http://localhost:5173
-DATABASE_URL=postgresql://user:password@localhost:5432/connect4
-KAFKA_BROKER=localhost:9092
-```
-
-### Docker Deployment
-
-#### Frontend (with Nginx)
-
-```bash
-cd 4inrow_frontend
-docker-compose up --build
-```
-
-The frontend will be accessible at `http://localhost:80`
-
-#### Backend (API + Analytics Worker)
+**Terminal 1: Start Kafka and Zookeeper**
 
 ```bash
 cd Connect4_backend
@@ -120,12 +91,45 @@ docker-compose up --build
 ```
 
 This runs:
-- Express API server on port 3000
-- Analytics worker for processing game events
-- PostgreSQL database
-- Kafka broker (if configured)
+- Kafka broker
+- Zookeeper
 
-## 🎯 Core Features
+**Terminal 2: Start API Server**
+
+Open a new terminal:
+```bash
+cd Connect4_backend
+
+# Install dependencies
+npm install
+
+# Start the API server (runs on http://localhost:5000)
+node server.js
+```
+
+**Terminal 3: Start Analytics Consumer**
+
+Open another new terminal:
+```bash
+cd Connect4_backend
+
+# Start the analytics consumer/worker
+node analytics/consumerStart.mjs
+```
+
+### Environment Variables
+
+Create a `.env` file in the `Connect4_backend` directory with the following variables:
+
+```env
+PORT=5000
+NODE_ENV=development
+Frontend_URL=http://localhost:5173
+DATABASE_URL=postgresql://user:password@localhost:5432/connect4
+KAFKA_BROKER=localhost:9092
+```
+
+##  Core Features
 
 ### 1. **Game Logic**
 - Standard Connect 4 rules (7x6 grid, 4-in-a-row to win)
@@ -162,7 +166,7 @@ This runs:
 - Game history and results
 - Leaderboard data
 
-## 🔗 API Endpoints
+##  API Endpoints
 
 ### HTTP Routes (Leaderboard)
 
@@ -179,7 +183,7 @@ This runs:
 - `leave_game` - Leave active game
 - `game_result` - Receive game outcome
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React** - UI framework
@@ -255,7 +259,7 @@ cd Connect4_backend
 npm run lint
 ```
 
-## 🐳 Docker Workflow
+##  Docker Workflow
 
 ### Build Images
 
@@ -299,64 +303,10 @@ The system tracks:
 - Average game duration
 - Opponent matchups
 
-## 🔐 Security Considerations
+## Security Considerations
 
 - CORS configured for frontend-backend communication
 - Environment variables for sensitive data
 - Input validation on moves
 - Database connection pooling
 - WebSocket authentication ready
-
-## 🚀 Deployment
-
-### Production Checklist
-
-- [ ] Set `NODE_ENV=production` in backend
-- [ ] Configure PostgreSQL with production credentials
-- [ ] Set appropriate `Frontend_URL` environment variable
-- [ ] Enable HTTPS for WebSocket connections (wss)
-- [ ] Configure Kafka for distributed analytics
-- [ ] Set up backup strategy for database
-- [ ] Configure monitoring and logging
-- [ ] Deploy using Docker Compose or Kubernetes
-
-## 🤝 Contributing
-
-1. Clone the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the ISC License.
-
-## 👨‍💻 Author
-
-Shantanu
-
-## 🆘 Troubleshooting
-
-### Frontend won't connect to backend
-- Check `Frontend_URL` environment variable in backend
-- Ensure CORS is properly configured
-- Verify Socket.io client version matches server
-
-### Database connection errors
-- Verify PostgreSQL is running
-- Check `DATABASE_URL` environment variable
-- Ensure database user has proper permissions
-
-### Docker issues
-- Run `docker-compose down` then `docker-compose up --build`
-- Check logs with `docker-compose logs`
-- Verify Docker daemon is running
-
-## 📞 Support
-
-For issues or questions, please open an issue on the repository.
-
----
-
-**Last Updated**: December 2025
