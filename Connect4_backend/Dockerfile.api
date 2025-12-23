@@ -1,20 +1,20 @@
-# Use official Node image
+# Use LTS Node
 FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
-# Copy dependency files first (better caching)
-COPY package.json ./
+# Copy only backend package files first (cache friendly)
+COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm install 
+RUN npm ci --only=production
 
-# Copy source code
+# Copy backend source
 COPY . .
 
-# Expose app port
+# Expose backend port
 EXPOSE 5000
 
-# Start the app
+# Start server
 CMD ["node", "server.js"]

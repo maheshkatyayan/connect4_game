@@ -21,7 +21,9 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const server = createServer(app);
+console.log("Frontend URL from env:", process.env.Frontend_URL);
 const io = new Server(server, {
+  
   cors: {
     origin: ["http://localhost:3001", "http://localhost:5173",`${process.env.Frontend_URL}`],
     methods: ['GET', 'POST'],
