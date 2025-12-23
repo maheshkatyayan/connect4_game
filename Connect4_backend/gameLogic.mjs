@@ -68,7 +68,7 @@ const game = {
   gameOver: false,
   createdBy: player1.username,
   createdAt: startedAt,
-  startedAt // ✅ STORE IT
+  startedAt
 };
 try{
 emitGameEvent({
@@ -309,7 +309,6 @@ export async function endGame(gameId, activeGames, { insertGame, updateUserStats
     }
 
     try {
-  //console.log("end game called",gameId,player1, player2, finalWinner, finalIsDraw,game);
   await emitGameEvent({
   eventType: 'GAME_ENDED',
   gameId,

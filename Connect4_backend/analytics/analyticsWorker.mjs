@@ -15,22 +15,21 @@ export const processGameEvent = async (event) => {
     // Metrics on GAME_ENDED
     if (event.eventType === 'GAME_ENDED') {
       //  const { startedAt, endedAt, players, winner, isDraw } = event.payload;
-
+     // console.log("AnalyticsWorker - Processing GAME_ENDED for game:", event);
       //  Proper validation
-      // if (!startedAt || !endedAt) {
-      //   throw new Error('Missing game timestamps');
-      // }
+      if (!event.startedAt || !event.endedAt) {
+        throw new Error('Missing game timestamps');
+      }
 
-      // const start = new Date(startedAt);
-      // const end = new Date(endedAt);
+      const start = new Date(event.startedAt);
+      const end = new Date(event.endedAt);
 
-      // if (isNaN(start.getTime()) || isNaN(end.getTime()) || end <= start) {
-      //   throw new Error('Invalid game timestamps');
-      // }
+      if (isNaN(start.getTime()) || isNaN(end.getTime()) || end <= start) {
+        throw new Error('Invalid game timestamps');
+      }
 
-      // const duration = Math.floor((end - start) / 1000);
-     // console.log("AnalyticsWorker - Processing GAME_ENDED for game:", event.gameId, duration, event.endedAt);
-     const duration =890
+       const duration = Math.floor((end - start) / 1000);
+       console.log("Inserting game metrics for game:", event.gameId, "Duration (s):", duration);
       await client.query(
         `INSERT INTO game_metrics (game_id, duration_seconds, played_at)
          VALUES ($1, $2, $3)`,
