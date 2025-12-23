@@ -97,12 +97,20 @@ ssl: {
 //   username: process.env.KAFKA_USERNAME,
 //   password: process.env.KAFKA_PASSWORD,
 // 
+```
+
+#### (Open 3 Terminal Windows)
+
+**Terminal 1: Start Kafka and Zookeeper**
+
+```bash
+cd Connect4_backend
+docker-compose up --build
+```
+
 This runs:
 - Kafka broker
 - Zookeeper
-
-**Terminal 2: Start API Server**
-- PostgreSQL database
 
 **Terminal 2: Start API Server**
 
@@ -114,7 +122,9 @@ cd Connect4_backend
 npm install
 
 # Start the API server (runs on http://localhost:5000)
-npm start
+node server.js
+```
+
 **Terminal 3: Start Analytics Consumer**
 
 Open another new terminal:
@@ -125,9 +135,8 @@ cd Connect4_backend
 node analytics/consumerStart.mjs
 ```
 
-### Environment Variables
 
-Create a `.env` file in the `Connect4_backend` directory with the following variables:
+
 
 ```env
 PORT=5000
