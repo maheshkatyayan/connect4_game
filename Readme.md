@@ -2,7 +2,7 @@
 
 A full-stack multiplayer Connect 4 game built with React (frontend) and Node.js (backend), featuring real-time multiplayer gameplay, leaderboards, and bot opponents.
 
-## 🎮 Project Overview
+## Project Overview
 
 This is a complete Connect 4 implementation with:
 - **Real-time Multiplayer**: WebSocket-based multiplayer gaming with Socket.io
@@ -12,7 +12,7 @@ This is a complete Connect 4 implementation with:
 - **Docker Support**: Containerized deployment for both frontend and backend
 - **PostgreSQL Database**: Persistent game and player data storage
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 connect_4_game/
@@ -44,7 +44,7 @@ connect_4_game/
 └── README.md                 # This file
 ```
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -55,20 +55,8 @@ connect_4_game/
 - **Kafka** (for analytics pipeline)
 
 ### Installation & Running Locally
+
 #### Frontend Setup
-### Using Docker
-
-```bash
-# Build frontend image
-cd 4inrow_frontend
-docker build -t connect4-frontend:latest .
-```
-
-
-Create a `.env` file in the `Connect4_backend` directory with the following variables:
-```VITE_SOCKET_SERVER_URL=http://localhost:5000```
-
-Other way you can do this
 
 ```bash
 cd 4inrow_frontend
@@ -80,19 +68,41 @@ npm install
 npm run dev
 ```
 
+Create a `.env` file in the `4inrow_frontend` directory (optional):
+```env
+VITE_SOCKET_SERVER_URL=http://localhost:5000
+```
+
 
 #### Backend Setup (Requires 3 Terminal Windows)
 
-**Terminal 1: Start Kafka and Zookeeper**
+In your backend(Connect4_backend) go to kafkaClinet inside kafka folder and make sure to coment out the code
+ 
+Comment out:
 
-```bash
-cd Connect4_backend
-docker-compose up --build
-```
+```js
+ssl: {
+  rejectUnauthorized: true,
+  ca: [Buffer.from(process.env.KAFKA_SSL_CA, 'base64').toString('utf8')],
+},
+**Important**: In `Connect4_backend/kafka/kafkaClient.mjs`, comment out the SSL and SASL configuration if running locally:
 
+```js
+// ssl: {
+//   rejectUnauthorized: true,
+//   ca: [Buffer.from(process.env.KAFKA_SSL_CA, 'base64').toString('utf8')],
+// },
+// sasl: {
+//   mechanism: 'scram-sha-256',
+//   username: process.env.KAFKA_USERNAME,
+//   password: process.env.KAFKA_PASSWORD,
+// 
 This runs:
 - Kafka broker
 - Zookeeper
+
+**Terminal 2: Start API Server**
+- PostgreSQL database
 
 **Terminal 2: Start API Server**
 
@@ -104,9 +114,7 @@ cd Connect4_backend
 npm install
 
 # Start the API server (runs on http://localhost:5000)
-node server.js
-```
-
+npm start
 **Terminal 3: Start Analytics Consumer**
 
 Open another new terminal:
@@ -203,7 +211,7 @@ KAFKA_BROKER=localhost:9092
 - **Docker Compose** - Container orchestration
 - **Nginx** - Reverse proxy and web server
 
-## 📦 Dependencies
+##  Dependencies
 
 ### Frontend
 ```
@@ -224,7 +232,7 @@ dotenv@^17.2.3
 uuid@^13.0.0
 ```
 
-## 🎮 How to Play
+##  How to Play
 
 1. **Welcome Screen**: Start by entering your name
 2. **Game Mode Selection**: Choose between multiplayer or single-player (vs bot)
