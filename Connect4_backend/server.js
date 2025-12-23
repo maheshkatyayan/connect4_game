@@ -31,7 +31,7 @@ console.log('Frontend URL from env log:', process.env.Frontend_URL);
 const allowedOrigins = [
   'http://localhost:3001',
   'http://localhost:5173',
-  process.env.FRONTEND_URL,
+  process.env.Frontend_URL,
 ];
 
 console.log('CORS allowed origins:', allowedOrigins);
