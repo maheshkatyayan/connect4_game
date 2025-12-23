@@ -6,13 +6,13 @@ dotenv.config();
 export const kafka = new Kafka({
   clientId: 'connect4-backend',
   brokers: [process.env.KAFKA_BROKERS], // must be HOST:SASL_PORT
-  ssl: {
-    rejectUnauthorized: true,
-    ca: [Buffer.from(process.env.KAFKA_SSL_CA, 'base64').toString('utf8')],
-  },
-  sasl: {
-    mechanism: 'scram-sha-256', // kafkajs expects lowercase
-    username: process.env.KAFKA_USERNAME,
-    password: process.env.KAFKA_PASSWORD,
-  },
+  // ssl: {
+  //   rejectUnauthorized: true,
+  //   ca: [Buffer.from(process.env.KAFKA_SSL_CA, 'base64').toString('utf8')],
+  // },
+  // sasl: {
+  //   mechanism: 'scram-sha-256', // kafkajs expects lowercase
+  //   username: process.env.KAFKA_USERNAME,
+  //   password: process.env.KAFKA_PASSWORD,
+  // },
 });
